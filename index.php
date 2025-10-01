@@ -3,6 +3,7 @@ require_once 'MercadoPagoPix.php';
 
 // Corrige Content-Type
 header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: *");
 
 $hp = new MercadoPagoPix();
 

@@ -5,7 +5,7 @@ class MercadoPagoPix
 
     public function __construct()
     {
-        $this->accessToken = "";
+        $this->accessToken = "APP_USR-5308731074929817-022510-5c886ef37791bc5a395b389f68221d36-2287791141";
         // Configurar timezone e locale para Brasil
         date_default_timezone_set('America/Sao_Paulo');
 
@@ -18,11 +18,10 @@ class MercadoPagoPix
      * Processar PIX DIRETO na aplicação (sem redirecionamento)
      *@format ['value'=>1.0, 'email'=>'email@email.com', 'first_name'=>'Name', 'last_name'=>'Lastname', 'cpf'=>'00000000000']
      */
-    public function processPixDirect(array $dados)
+    public function processPixDirect($dados)
     {
         try {
-
-            // Preparar dados do pagamento PIX
+           // Preparar dados do pagamento PIX
             $paymentData = [
                 'transaction_amount' => (float)$dados['value'],
                 'description' => 'Doação PIX Hardtale',
@@ -102,7 +101,7 @@ class MercadoPagoPix
                 $qrCodeBase64 = $responseData['point_of_interaction']['transaction_data']['qr_code_base64'] ?? '';
             }
 
-            echo json_encode([
+            return json_encode([
                 'success' => true,
                 'payment_id' => $paymentId,
                 'status' => $status,
@@ -116,7 +115,7 @@ class MercadoPagoPix
                 ]
             ]);
         } catch (\Exception $e) {
-            echo json_encode([
+            return json_encode([
                 'success' => false,
                 'error' => $e->getMessage(),
                 'debug' => [
@@ -168,7 +167,7 @@ class MercadoPagoPix
                 throw new \Exception("Resposta inválida da API");
             }
 
-            echo json_encode([
+            return json_encode([
                 'success' => true,
                 'payment_id' => $responseData['id'],
                 'status' => $responseData['status'],
@@ -176,7 +175,7 @@ class MercadoPagoPix
                 'external_reference' => $responseData['external_reference'] ?? ''
             ]);
         } catch (\Exception $e) {
-            echo json_encode([
+            return json_encode([
                 'success' => false,
                 'error' => $e->getMessage()
             ]);
